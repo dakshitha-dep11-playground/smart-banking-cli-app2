@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 
+
 public class SmartBankinApp {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -186,7 +187,40 @@ public class SmartBankinApp {
                         screen = DASHBOARD;
                         continue;
                     }
-            }
+            
+            
+                case DEPOSITE:
+
+                    //Body
+
+                break;       
+                
+                
+                case WITHDRAW:
+
+                    //Body
+
+                break;  
+
+
+                case TRANSFER:
+
+                    //Body
+
+                break;  
+
+                case PRINT_STATEMENT:
+
+                    //Body
+
+                break;  
+
+                case DELETE_ACCOUNT:
+
+                    //Body
+
+                break;  
+                }
 
         } while (true);
 
