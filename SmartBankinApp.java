@@ -1,12 +1,10 @@
 import java.util.Arrays;
 import java.util.Scanner;
 
-
-
 public class SmartBankinApp {
     private static final Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         final String CLEAR = "\033[H\033[2J";
         final String GREEN_COLOR = "\033[32m";
         final String RESET_COLOR = "\033[0m";
@@ -41,16 +39,16 @@ public class SmartBankinApp {
 
         String add_Yes_No_Option;
 
-        int[] idArrayMain = new int[0];
-        String[] nameArrayMain = new String[0];
-        double[] bankBalanceArrayMain = new double[0];
+        String[][] bankDetails = new String[0][3];
         loopMain: do {
             System.out.println(CLEAR);
             System.out.println(String.format(FINAL_APP_TITLE + "\n", screen));
 
-            // System.out.println(Arrays.toString(idArrayMain));
-            // System.out.println(Arrays.toString(nameArrayMain));
-            // System.out.println(Arrays.toString(bankBalanceArrayMain));
+            for (int i = 0; i < bankDetails.length; i++) {
+                System.out.println(Arrays.toString(bankDetails[i]));
+            }
+            // System.out.println(Arrays.toString(bankDetails[i][1]));
+            // System.out.println(Arrays.toString(bankDetails[i][2]));
             switch (screen) {
                 case DASHBOARD:
 
@@ -66,11 +64,32 @@ public class SmartBankinApp {
                     String dashboardOption = scanner.nextLine().strip();
 
                     if (dashboardOption.isBlank() || !Character.isDigit(dashboardOption.charAt(0))) {
-                        System.out.println(String.format(ERROR_LINE, "Enter valid option!"));
+
+                        //Blinking error alert
+                        for (int i = 0; i < 3; i++) {
+                            System.out.print(String.format("\r" + ERROR_LINE, "Enter valid option!"));
+                            Thread.sleep(700);
+                            System.out.printf("%s%s",
+                                    "\b".repeat(String.format(ERROR_LINE, "Enter valid option!").length() - 10),
+                                    " ".repeat(String.format(ERROR_LINE, "Enter valid option!\r").length() - 10));
+                            Thread.sleep(800);
+                        }
+                        
+                        break;
                     }
                     int dashboardOptionInt = Integer.valueOf(dashboardOption);
                     if (dashboardOptionInt > 7 || dashboardOptionInt < 1) {
-                        System.out.println(String.format(ERROR_LINE, "Enter valid option!"));
+                        
+                        //Blinking error alert
+                        for (int i = 0; i < 3; i++) {
+                            System.out.print(String.format("\r" + ERROR_LINE, "Enter valid option!"));
+                            Thread.sleep(700);
+                            System.out.printf("%s%s",
+                                    "\b".repeat(String.format(ERROR_LINE, "Enter valid option!").length() - 10),
+                                    " ".repeat(String.format(ERROR_LINE, "Enter valid option!\r").length() - 10));
+                            Thread.sleep(800);
+                        }
+                        break;
                     }
 
                     switch (dashboardOptionInt) {
@@ -98,7 +117,7 @@ public class SmartBankinApp {
                     break;
 
                 case ADD_ACCOUNT:
-                    idStringMain = branchCode + String.format("%05d", idArrayMain.length + 1);
+                    idStringMain = branchCode + String.format("%05d", bankDetails.length + 1);
                     System.out.println("ID : " + idStringMain);
 
                     // add name
@@ -153,27 +172,22 @@ public class SmartBankinApp {
                         break;
                     } while (true);
 
-
-                    //Initialize temp arrays
-                    int[] idArrayTemp = new int[idArrayMain.length + 1];
-                    String[] nameArrayTemp = new String[nameArrayMain.length + 1];
-                    double[] bankBalanceArrayTemp = new double[bankBalanceArrayMain.length + 1];
+                    // Initialize temp arrays
+                    String[][] bankDetailsTemp = new String[bankDetails.length + 1][3];
 
                     // Enter to new Arrays
-                    for (int i = 0; i < idArrayMain.length; i++) {
-                        idArrayTemp[i] = idArrayMain[i];
-                        nameArrayTemp[i] = nameArrayMain[i];
-                        bankBalanceArrayTemp[i] = bankBalanceArrayMain[i];
+                    for (int i = 0; i < bankDetails.length; i++) {
+                        bankDetailsTemp[i][0] = bankDetails[i][0];
+                        bankDetailsTemp[i][1] = bankDetails[i][1];
+                        bankDetailsTemp[i][2] = bankDetails[i][2];
                     }
-                    idArrayTemp[idArrayTemp.length - 1] = idArrayTemp.length;
-                    nameArrayTemp[nameArrayTemp.length - 1] = nameStringMain;
-                    bankBalanceArrayTemp[bankBalanceArrayTemp.length - 1] = depositeMain;
 
-                    idArrayMain = idArrayTemp;
-                    nameArrayMain = nameArrayTemp;
-                    bankBalanceArrayMain = bankBalanceArrayTemp;
+                    bankDetailsTemp[bankDetailsTemp.length - 1][0] = idStringMain;
+                    bankDetailsTemp[bankDetailsTemp.length - 1][1] = nameStringMain;
+                    bankDetailsTemp[bankDetailsTemp.length - 1][2] = String.valueOf(depositeMain);
 
-                    // Print successfull message
+                    bankDetails = bankDetailsTemp;
+
                     System.out.println();
                     System.out.print(String.format(SUCCESSFULL_MESSAGE,
                             idStringMain + " : " + nameStringMain + " added successfully.\n"));
@@ -187,40 +201,37 @@ public class SmartBankinApp {
                         screen = DASHBOARD;
                         continue;
                     }
-            
-            
+
                 case DEPOSITE:
 
-                    //Body
+                    // Body
 
-                break;       
-                
-                
+                    break;
+
                 case WITHDRAW:
 
-                    //Body
+                    // Body
 
-                break;  
-
+                    break;
 
                 case TRANSFER:
 
-                    //Body
+                    // Body
 
-                break;  
+                    break;
 
                 case PRINT_STATEMENT:
 
-                    //Body
+                    // Body
 
-                break;  
+                    break;
 
                 case DELETE_ACCOUNT:
 
-                    //Body
+                    // Body
 
-                break;  
-                }
+                    break;
+            }
 
         } while (true);
 
